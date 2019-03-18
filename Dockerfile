@@ -11,8 +11,7 @@ RUN	apk update && \
 		syslog-ng \
 		tzdata \
 		unzip \
-		vim \
-		wget && \
+		vim && \
 	rm -rf /var/cache/apk/* && \
 # Set local timezone
 	cp /usr/share/zoneinfo/Europe/Rome /etc/localtime
