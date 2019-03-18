@@ -1,5 +1,6 @@
+ARG ARCH
 ARG ALPINE_BRANCH
-FROM alpine:$ALPINE_BRANCH
+FROM $ARCH/alpine:$ALPINE_BRANCH
 
 # Install required software
 RUN	apk update && \

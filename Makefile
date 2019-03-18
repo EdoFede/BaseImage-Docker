@@ -1,5 +1,6 @@
 default: list
 
+ARCH ?= amd64
 ALPINE_BRANCH ?= 3.9.2
 DOCKER_IMAGE ?= edofede/baseimage
 COMMENT ?= Automated push from Makefile
@@ -16,11 +17,12 @@ list:
 
 build:
 	@docker build \
+		--build-arg ARCH=$(ARCH) \
 		--build-arg ALPINE_BRANCH=$(ALPINE_BRANCH) \
 		--build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') \
 		--build-arg VERSION=$(VERSION) \
 		--build-arg VCS_REF=$(GIT_COMMIT) \
-		--tag $(DOCKER_IMAGE):$(DOCKER_TAG) \
+		--tag $(DOCKER_IMAGE):$(ARCH)-$(DOCKER_TAG) \
 		.
 
 debug:
