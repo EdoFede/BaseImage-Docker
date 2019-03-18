@@ -1,11 +1,10 @@
 sudo: required
 services:
   - docker
-language: bash
 
 script:
   - make build
-  - docker run myimage
+  - make run
 
 after_script:
   - docker images
