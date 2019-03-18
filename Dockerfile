@@ -15,7 +15,7 @@ RUN	apk update && \
 		vim && \
 	rm -rf /var/cache/apk/* && \
 # Set local timezone
-	cp /usr/share/zoneinfo/Europe/Rome /etc/localtime
+	cp /usr/share/zoneinfo/Europe/Rome /etc/localtime |true
 
 COPY imageFiles/ /
 
