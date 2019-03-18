@@ -1,0 +1,9 @@
+.git
+.gitignore
+.github
+.gitattributes
+.cache
+Makefile
+VERSION
+*.md
+!README*.md
