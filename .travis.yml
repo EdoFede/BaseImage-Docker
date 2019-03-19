@@ -7,7 +7,7 @@ install:
   # - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 762E3157
   # - sudo apt update -y
   # - sudo apt install --only-upgrade docker-ce -y
-  - docker info |grep -i Version
+  - docker version
   # - sudo service docker stop
   # - sudo mkdir -p /etc/docker
   # - sudo touch /etc/docker/daemon.json
@@ -17,7 +17,6 @@ install:
   # - sudo curl -fsSL https://get.docker.com |sh
   
   - ./travisDockerSetup.sh
-  - docker info |grep -i Version
 
   - docker pull multiarch/qemu-user-static:register
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
