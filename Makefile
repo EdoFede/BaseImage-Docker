@@ -135,6 +135,17 @@ manifest:
 	# docker manifest annotate $(DOCKER_IMAGE):$(DOCKER_TAG) $(DOCKER_IMAGE):i386-$(DOCKER_TAG) --os linux --arch x86
 	docker manifest push --purge $(DOCKER_IMAGE):$(DOCKER_TAG)
 
+manifest_latest:
+	docker manifest create --amend $(DOCKER_IMAGE):latest \
+		$(DOCKER_IMAGE):amd64-$(DOCKER_TAG) \
+		$(DOCKER_IMAGE):arm32v6-$(DOCKER_TAG) \
+		$(DOCKER_IMAGE):arm32v7-$(DOCKER_TAG)
+	docker manifest annotate $(DOCKER_IMAGE):latest $(DOCKER_IMAGE):amd64-$(DOCKER_TAG) --os linux --arch amd64
+	docker manifest annotate $(DOCKER_IMAGE):latest $(DOCKER_IMAGE):arm32v6-$(DOCKER_TAG) --os linux --arch arm --variant armv6
+	docker manifest annotate $(DOCKER_IMAGE):latest $(DOCKER_IMAGE):arm32v7-$(DOCKER_TAG) --os linux --arch arm --variant armv7
+	# docker manifest annotate $(DOCKER_IMAGE):latest $(DOCKER_IMAGE):arm64v8-$(DOCKER_TAG) --os linux --arch arm64 --variant armv8
+	# docker manifest annotate $(DOCKER_IMAGE):latest $(DOCKER_IMAGE):i386-$(DOCKER_TAG) --os linux --arch x86
+	docker manifest push --purge $(DOCKER_IMAGE):latest
 
 push_docker:
 	docker push $(DOCKER_IMAGE):amd64-$(DOCKER_TAG)
