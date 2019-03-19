@@ -4,10 +4,12 @@ services:
   - docker
 
 install:
-  - echo $'{\n    "experimental": true\n}' | sudo tee -a /etc/docker/daemon.json;
   - sudo apt update -y
   - sudo apt install --only-upgrade docker-ce -y
   - docker info |grep -i Version
+  - sudo service docker stop
+  - echo '{"experimental": true}' | sudo tee /etc/docker/daemon.json
+  - sudo service docker start
   - docker pull multiarch/qemu-user-static:register
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
 
