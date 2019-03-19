@@ -11,7 +11,6 @@ install:
   - sudo service docker stop
   - sudo mkdir -p /etc/docker
   - sudo touch /etc/docker/daemon.json
-  - echo '{"experimental": true}' | sudo tee /etc/docker/daemon.json
   - sudo service docker start
   - docker pull multiarch/qemu-user-static:register
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
@@ -35,7 +34,7 @@ before_deploy:
 
 deploy:
   provider: script
-  script: make push_docker && make manifest
+  script: make push_docker && DOCKER_CLI_EXPERIMENTAL=enabled && make manifest
   on:
     branch: master
 
