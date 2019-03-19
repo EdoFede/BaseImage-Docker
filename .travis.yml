@@ -36,9 +36,9 @@ install:
 
 before_script:
   - |
-    QEMU_RELEASE=$(curl --silent --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 1 --retry-max-time 60 "https://api.github.com/repos/multiarch/qemu-user-static/releases/latest" |grep '"tag_name":' |sed -E 's/.*"([^"]+)".*/\1/')
+    QEMU_RELEASE=$(curl --silent --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 1 --retry-max-time 60 "https://api.github.com/repos/multiarch/qemu-user-static/releases/latest" |grep '"tag_name":' |sed -E 's/.*"([^"]+)".*/\1/' || :)
     if [ -z "$QEMU_RELEASE" ]; then
-      QEMU_RELEASE = "v3.1.0-2"
+      QEMU_RELEASE = "v3.0.0"
     fi
 
 script: 
