@@ -9,6 +9,8 @@ install:
   - sudo apt install --only-upgrade docker-ce -y
   - docker info |grep -i Version
   - sudo service docker stop
+  - mkdir -p /etc/docker
+  - touch /etc/docker/daemon.json
   - echo '{"experimental": true}' | sudo tee /etc/docker/daemon.json
   - sudo service docker start
   - docker pull multiarch/qemu-user-static:register
