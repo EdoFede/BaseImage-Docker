@@ -79,6 +79,34 @@ run:
 		$(DOCKER_IMAGE):$(ARCH)-$(DOCKER_TAG) &
 
 
+manifest:
+	export DOCKER_CLI_EXPERIMENTAL=enabled
+
+	docker manifest create -a $(DOCKER_IMAGE):$(DOCKER_TAG) \
+		$(DOCKER_IMAGE):amd64-$(DOCKER_TAG) \
+		$(DOCKER_IMAGE):arm32v6-$(DOCKER_TAG) \
+		$(DOCKER_IMAGE):arm32v7-$(DOCKER_TAG)
+	docker manifest annotate $(DOCKER_IMAGE):$(DOCKER_TAG) $(DOCKER_IMAGE):amd64-$(DOCKER_TAG) --os linux --arch amd64
+	docker manifest annotate $(DOCKER_IMAGE):$(DOCKER_TAG) $(DOCKER_IMAGE):arm32v6-$(DOCKER_TAG) --os linux --arch arm --variant armv6
+	docker manifest annotate $(DOCKER_IMAGE):$(DOCKER_TAG) $(DOCKER_IMAGE):arm32v7-$(DOCKER_TAG) --os linux --arch arm --variant armv7
+	# docker manifest annotate $(DOCKER_IMAGE):$(DOCKER_TAG) $(DOCKER_IMAGE):arm64v8-$(DOCKER_TAG) --os linux --arch arm64 --variant armv8
+	# docker manifest annotate $(DOCKER_IMAGE):$(DOCKER_TAG) $(DOCKER_IMAGE):i386-$(DOCKER_TAG) --os linux --arch x86
+	docker manifest push --purge $(DOCKER_IMAGE):$(DOCKER_TAG)
+
+
+push_docker:
+	docker push $(DOCKER_IMAGE):amd64-$(DOCKER_TAG)
+	docker push $(DOCKER_IMAGE):arm32v6-$(DOCKER_TAG)
+	docker push $(DOCKER_IMAGE):arm32v7-$(DOCKER_TAG)
+	# docker push $(DOCKER_IMAGE):arm64v8-$(DOCKER_TAG)
+	# docker push $(DOCKER_IMAGE):i386-$(DOCKER_TAG)
+
+
+push_latest:
+	docker tag $(DOCKER_IMAGE):$(DOCKER_TAG) $(DOCKER_IMAGE):latest
+	docker push $(DOCKER_IMAGE):latest
+
+
 output:
 	@echo Docker Image: "$(DOCKER_IMAGE)":"$(ARCH)"-"$(DOCKER_TAG)"
 

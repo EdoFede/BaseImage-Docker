@@ -29,8 +29,20 @@ install: true
 before_script: true
 script: 
   - make build ARCH=amd64
-  - make build ARCH=i386
   - make build ARCH=arm32v6
   - make build ARCH=arm32v7
 
 after_script: docker images
+
+before_deploy:
+  - docker login -u "$DOCKER_HUB_USERNAME" -p "$DOCKER_HUB_PASSWORD"
+  # echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
+
+deploy:
+  provider: script
+  script: make push_docker && make manifest
+  on:
+    branch: master
+
+after_deploy:
+  - make push_latest
