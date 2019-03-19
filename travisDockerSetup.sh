@@ -7,6 +7,6 @@
 sudo mkdir -p /etc/docker
 echo '{ "experimental": true }' | sudo tee /etc/docker/daemon.json
 sudo service docker restart
-cat /etc/docker/daemon.json
+sudo cat /etc/docker/daemon.json
 echo '####### Docker version #######'
 docker version
