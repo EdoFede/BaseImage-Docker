@@ -2,6 +2,8 @@ ARG ARCH
 ARG ALPINE_BRANCH
 FROM $ARCH/alpine:$ALPINE_BRANCH
 
+COPY build_tmp/qemu/ /usr/bin/
+
 # Install required software
 RUN	apk update && \
 	apk --no-cache add \
@@ -15,7 +17,7 @@ RUN	apk update && \
 		vim && \
 	rm -rf /var/cache/apk/* && \
 # Set local timezone
-	cp /usr/share/zoneinfo/Europe/Rome /etc/localtime |true
+	cp /usr/share/zoneinfo/Europe/Rome /etc/localtime
 
 COPY imageFiles/ /
 
