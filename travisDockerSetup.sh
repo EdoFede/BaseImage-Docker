@@ -4,9 +4,8 @@
 # sudo apt-get remove -y docker docker-engine docker.io containerd runc
 # sudo curl -fsSL https://get.docker.com |sh
 
-sudo mkdir -p /etc/docker
-echo '{ "experimental": true }' | sudo tee /etc/docker/daemon.json
-sudo service docker restart
-sudo cat /etc/docker/daemon.json
+mkdir -p $HOME/.docker
+echo '{ "experimental": "enabled" }' > $HOME/.docker/config.json
+# sudo service docker restart
 echo '####### Docker version #######'
 docker version

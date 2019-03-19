@@ -17,9 +17,7 @@ install:
   # - sudo curl -fsSL https://get.docker.com |sh
   
   - ./travisDockerSetup.sh
-  - ls -l $HOME/.docker/config.json
-  - cat $HOME/.docker/config.json
-  
+
   - docker pull multiarch/qemu-user-static:register
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
 
@@ -42,7 +40,7 @@ before_deploy:
 
 deploy:
   provider: script
-  script: make push_docker && DOCKER_CLI_EXPERIMENTAL=enabled && make manifest
+  script: make push_docker && cat $HOME/.docker/config.json && make manifest
   on:
     branch: master
 

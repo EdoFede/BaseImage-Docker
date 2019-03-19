@@ -124,7 +124,6 @@ run:
 
 
 manifest:
-	export DOCKER_CLI_EXPERIMENTAL=enabled
 	docker manifest create --amend $(DOCKER_IMAGE):$(DOCKER_TAG) \
 		$(DOCKER_IMAGE):amd64-$(DOCKER_TAG) \
 		$(DOCKER_IMAGE):arm32v6-$(DOCKER_TAG) \
