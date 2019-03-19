@@ -10,7 +10,7 @@ VERSION  = $(strip $(shell [ -f VERSION ] && head VERSION || echo '0.1'))
 DOCKER_TAG = $(shell echo $(VERSION) |sed 's/^.//')
 GIT_COMMIT = $(strip $(shell git rev-parse --short HEAD))
 GIT_URL = $(shell git config --get remote.origin.url)
-QEMU_RELEASE = $(shell curl --silent "https://api.github.com/repos/multiarch/qemu-user-static/releases/latest" |grep '"tag_name":' |sed -E 's/.*"([^"]+)".*/\1/')
+QEMU_RELEASE = $(shell curl --silent --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 60 "https://api.github.com/repos/multiarch/qemu-user-static/releases/latest" |grep '"tag_name":' |sed -E 's/.*"([^"]+)".*/\1/')
 
 
 .PHONY: list clean_qemu get_qemu build_arch build debug run output commit push_master push_tagged
@@ -32,23 +32,67 @@ ifeq ($(ARCH),amd64)
 endif
 
 ifeq ($(ARCH),arm32v6)
-	curl -L  https://github.com/multiarch/qemu-user-static/releases/download/$(QEMU_RELEASE)/qemu-arm-static.tar.gz -o build_tmp/qemu-arm-static.tar.gz
-	tar zxvf build_tmp/qemu-*-static.tar.gz -C build_tmp/qemu/
+	set -e ;\
+	QEMU_ARCH="arm"; \
+	curl -L \
+		--connect-timeout 5 \
+		--max-time 10 \
+		--retry 5 \
+		--retry-delay 0 \
+		--retry-max-time 60 \
+		https://github.com/multiarch/qemu-user-static/releases/download/$(QEMU_RELEASE)/qemu-$$QEMU_ARCH-static.tar.gz \
+		-o build_tmp/qemu-arm-static.tar.gz; \
+	tar zxvf \
+		build_tmp/qemu-*-static.tar.gz \
+		-C build_tmp/qemu/
 endif
 
 ifeq ($(ARCH),arm32v7)
-	curl -L  https://github.com/multiarch/qemu-user-static/releases/download/$(QEMU_RELEASE)/qemu-arm-static.tar.gz -o build_tmp/qemu-arm-static.tar.gz
-	tar zxvf build_tmp/qemu-*-static.tar.gz -C build_tmp/qemu/
+	set -e ;\
+	QEMU_ARCH="arm"; \
+	curl -L \
+		--connect-timeout 5 \
+		--max-time 10 \
+		--retry 5 \
+		--retry-delay 0 \
+		--retry-max-time 60 \
+		https://github.com/multiarch/qemu-user-static/releases/download/$(QEMU_RELEASE)/qemu-$$QEMU_ARCH-static.tar.gz \
+		-o build_tmp/qemu-arm-static.tar.gz; \
+	tar zxvf \
+		build_tmp/qemu-*-static.tar.gz \
+		-C build_tmp/qemu/
 endif
 
 ifeq ($(ARCH),arm64v8)
-	curl -L https://github.com/multiarch/qemu-user-static/releases/download/$(QEMU_RELEASE)/qemu-aarch64-static.tar.gz -o build_tmp/qemu-aarch64-static.tar.gz
-	tar zxvf build_tmp/qemu-*-static.tar.gz -C build_tmp/qemu/
+	set -e ;\
+	QEMU_ARCH="aarch64"; \
+	curl -L \
+		--connect-timeout 5 \
+		--max-time 10 \
+		--retry 5 \
+		--retry-delay 0 \
+		--retry-max-time 60 \
+		https://github.com/multiarch/qemu-user-static/releases/download/$(QEMU_RELEASE)/qemu-$$QEMU_ARCH-static.tar.gz \
+		-o build_tmp/qemu-arm-static.tar.gz; \
+	tar zxvf \
+		build_tmp/qemu-*-static.tar.gz \
+		-C build_tmp/qemu/
 endif
 
 ifeq ($(ARCH),i386)
-	curl -L https://github.com/multiarch/qemu-user-static/releases/download/$(QEMU_RELEASE)/qemu-i386-static.tar.gz -o build_tmp/qemu-i386-static.tar.gz
-	tar zxvf build_tmp/qemu-*-static.tar.gz -C build_tmp/qemu/
+	set -e ;\
+	QEMU_ARCH="i386"; \
+	curl -L \
+		--connect-timeout 5 \
+		--max-time 10 \
+		--retry 5 \
+		--retry-delay 0 \
+		--retry-max-time 60 \
+		https://github.com/multiarch/qemu-user-static/releases/download/$(QEMU_RELEASE)/qemu-$$QEMU_ARCH-static.tar.gz \
+		-o build_tmp/qemu-arm-static.tar.gz; \
+	tar zxvf \
+		build_tmp/qemu-*-static.tar.gz \
+		-C build_tmp/qemu/
 endif
 
 
