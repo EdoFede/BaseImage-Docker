@@ -144,7 +144,7 @@ push_docker:
 	# docker push $(DOCKER_IMAGE):i386-$(DOCKER_TAG)
 
 
-push_latest:
+push_docker_latest:
 	docker tag $(DOCKER_IMAGE):$(DOCKER_TAG) $(DOCKER_IMAGE):latest
 	docker push $(DOCKER_IMAGE):latest
 

@@ -4,20 +4,7 @@ services:
   - docker
 
 install:
-  # - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 762E3157
-  # - sudo apt update -y
-  # - sudo apt install --only-upgrade docker-ce -y
-  - docker version
-  # - sudo service docker stop
-  # - sudo mkdir -p /etc/docker
-  # - sudo touch /etc/docker/daemon.json
-  # - echo '{"experimental": true}' | sudo tee /etc/docker/daemon.json
-  # - sudo service docker start
-  # - sudo apt-get remove docker docker-engine docker.io containerd runc
-  # - sudo curl -fsSL https://get.docker.com |sh
-  
   - ./travisDockerSetup.sh
-
   - docker pull multiarch/qemu-user-static:register
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
 
@@ -40,12 +27,9 @@ before_deploy:
 
 deploy:
   provider: script
-  script: make push_docker && cat $HOME/.docker/config.json && make manifest
+  script: make push_docker && make manifest && make push_docker_latest
   on:
     branch: master
-
-after_deploy:
-  - make push_latest
 
 addons:
   apt:

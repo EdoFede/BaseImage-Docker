@@ -25,7 +25,7 @@ RUN chmod +x /entrypoint.sh && \
 	chmod +x /etc/runit/1 /etc/runit/2 /etc/runit/3 && \
 	chmod +x /etc/sv/syslog-ng/run && \
 	ln -sf /etc/sv/syslog-ng /etc/service/ && \
-	sed -i "s/^\(tty\d\:\:\)/#\1/g" /etc/inittab
+	sed -i "s/^\(tty\d\:\:\)/#\\1/g" /etc/inittab
 
 ARG VERSION="latest"
 ARG BUILD_DATE
