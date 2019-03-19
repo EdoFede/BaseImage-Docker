@@ -27,7 +27,7 @@ before_deploy:
 
 deploy:
   provider: script
-  script: make push_docker && make manifest && `if [ "$TRAVIS_BRANCH" == "master" ]; then echo "make push_docker_latest"; else echo "true" ; fi`
+  script: make push_docker && make manifest && `if [ "$TRAVIS_BRANCH" != "master" ]; then echo "make push_docker_latest"; else echo "true" ; fi`
   on:
     branch: master
 
