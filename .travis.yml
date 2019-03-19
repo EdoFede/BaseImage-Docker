@@ -4,6 +4,7 @@ services:
   - docker
 
 install:
+  - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 762E3157
   - sudo apt update -y
   - sudo apt install --only-upgrade docker-ce -y
   - docker info |grep -i Version
