@@ -1,6 +1,7 @@
 default: list
 
 ARCH ?= amd64
+QEMU_RELEASE = ?= v3.1.0-2
 
 ALPINE_BRANCH ?= 3.9.2
 DOCKER_IMAGE ?= edofede/baseimage
@@ -10,7 +11,6 @@ VERSION  = $(strip $(shell [ -f VERSION ] && head VERSION || echo '0.1'))
 DOCKER_TAG = $(shell echo $(VERSION) |sed 's/^.//')
 GIT_COMMIT = $(strip $(shell git rev-parse --short HEAD))
 GIT_URL = $(shell git config --get remote.origin.url)
-QEMU_RELEASE = $(shell curl --silent --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 60 "https://api.github.com/repos/multiarch/qemu-user-static/releases/latest" |grep '"tag_name":' |sed -E 's/.*"([^"]+)".*/\1/')
 
 
 .PHONY: list clean_qemu get_qemu build_arch build debug run output commit push_master push_tagged

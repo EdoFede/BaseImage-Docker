@@ -25,8 +25,14 @@ before_install:
   # - docker build --volume type=bind,source=/tmp/qemu-i386-static,target=/usr/bin/qemu-i386-static -f Dockerfile -t edofede/baseimage-i386 .
   # # Build Intel(amd64) Docker image
   # - docker build -f Dockerfile -t amd64/mysql .
+
 install: true
-before_script: true
+before_script:
+  - |
+    QEMU_RELEASE = $(curl --silent --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 1 --retry-max-time 60 "https://api.github.com/repos/multiarch/qemu-user-static/releases/latest" |grep '"tag_name":' |sed -E 's/.*"([^"]+)".*/\1/')
+    if [ -z "$QEMU_RELEASE" ]; then
+      QEMU_RELEASE = "v3.1.0-2"
+    fi
 script: 
   - make build ARCH=amd64
   - make build ARCH=arm32v6
