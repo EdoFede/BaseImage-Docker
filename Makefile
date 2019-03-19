@@ -1,7 +1,7 @@
 default: list
 
 ARCH ?= amd64
-QEMU_RELEASE = ?= v3.1.0-2
+QEMU_RELEASE ?= v3.1.0-2
 
 ALPINE_BRANCH ?= 3.9.2
 DOCKER_IMAGE ?= edofede/baseimage

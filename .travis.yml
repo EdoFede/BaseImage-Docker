@@ -34,9 +34,9 @@ before_script:
       QEMU_RELEASE = "v3.1.0-2"
     fi
 script: 
-  - make build ARCH=amd64
-  - make build ARCH=arm32v6
-  - make build ARCH=arm32v7
+  - make build ARCH=amd64 QEMU_RELEASE=$QEMU_RELEASE
+  - make build ARCH=arm32v6 QEMU_RELEASE=$QEMU_RELEASE
+  - make build ARCH=arm32v7 QEMU_RELEASE=$QEMU_RELEASE
 
 after_script: docker images
 
