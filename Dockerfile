@@ -27,8 +27,8 @@ RUN chmod +x /entrypoint.sh && \
 	ln -sf /etc/sv/syslog-ng /etc/service/ && \
 	sed -i "s/^\(tty\d\:\:\)/#\\1/g" /etc/inittab
 
-ARG VERSION="latest"
 ARG BUILD_DATE
+ARG VERSION="devel"
 ARG VCS_REF
 
 LABEL 	maintainer="Edoardo Federici <hello@edoardofederici.com>" \
