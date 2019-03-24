@@ -1,7 +1,7 @@
 default: list
 
 DOCKER_IMAGE ?= edofede/baseimage
-COMMENT ?= Automated commit from Makefile
+# COMMENT ?= Automated commit from Makefile
 
 ARCHS ?= amd64 arm32v6 arm32v7 i386 ppc64le s390x
 ALPINE_BRANCH ?= 3.9.2
@@ -25,7 +25,7 @@ list:
 git_push:
 ifndef COMMENT
 	@printf "Add comment to current commit: \\nSyntax: make git_push COMMENT=\"xxxx\"\\n"
-endif
+else
 	git add .
 	git commit -S -m "$(COMMENT)"
 
@@ -33,6 +33,7 @@ ifndef BRANCH
 	BRANCH = devel
 endif
 	git push origin $(BRANCH)
+endif
 
 
 output:
