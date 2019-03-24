@@ -30,9 +30,10 @@ else
 	git add .
 	git commit -S -m "$(COMMENT)"
 
-ifeq ($(BRANCH),)
-	BRANCH := devel
-endif
+	BRANCH := $(or $(BRANCH),$(devel))
+# ifeq ($(BRANCH),)
+# 	BRANCH := devel
+# endif
 	git push origin $(BRANCH)
 endif
 
