@@ -11,6 +11,7 @@ VERSION=master
 VCS_REF=master
 
 mkdir -p build_tmp/qemu
+touch build_tmp/qemu/dummy
 
 docker build . \
 	--tag $IMAGE_NAME \
@@ -19,4 +20,3 @@ docker build . \
 	--build-arg BUILD_DATE=$BUILD_DATE \
 	--build-arg VERSION=$VERSION \
 	--build-arg VCS_REF=$VCS_REF
-	

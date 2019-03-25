@@ -3,10 +3,11 @@ A base Alpine image with runit and syslog-ng
 
 [![](https://images.microbadger.com/badges/image/edofede/baseimage.svg)](https://microbadger.com/images/edofede/baseimage "Get your own image badge on microbadger.com")
 [![](https://images.microbadger.com/badges/version/edofede/baseimage.svg)](https://github.com/EdoFede/BaseImage-Docker/releases)
+[![](https://img.shields.io/docker/pulls/edofede/baseimage.svg)](https://hub.docker.com/r/edofede/baseimage)  
 [![](https://img.shields.io/github/last-commit/EdoFede/BaseImage-Docker.svg)](https://github.com/EdoFede/BaseImage-Docker/commits/master)
-[![](https://img.shields.io/github/license/EdoFede/BaseImage-Docker.svg)](https://github.com/EdoFede/BaseImage-Docker/blob/master/LICENSE)  
-[![](https://img.shields.io/docker/pulls/edofede/baseimage.svg)](https://hub.docker.com/r/edofede/baseimage)
+[![Build Status](https://travis-ci.com/EdoFede/BaseImage-Docker.svg?branch=master)](https://travis-ci.com/EdoFede/BaseImage-Docker)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/3aa769f5cc2847d495ebf2bd11a770df)](https://www.codacy.com/app/EdoFede/BaseImage-Docker?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=EdoFede/BaseImage-Docker&amp;utm_campaign=Badge_Grade)  
+[![](https://img.shields.io/github/license/EdoFede/BaseImage-Docker.svg)](https://github.com/EdoFede/BaseImage-Docker/blob/master/LICENSE)
 [![](https://img.shields.io/badge/If%20you%20can%20read%20this-you%20don't%20need%20glasses-brightgreen.svg)](https://shields.io)
 
 ## Introduction
