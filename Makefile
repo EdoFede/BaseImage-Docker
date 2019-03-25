@@ -15,7 +15,7 @@ GIT_COMMIT = $(strip $(shell git rev-parse --short HEAD))
 # GIT_URL = $(shell git config --get remote.origin.url)
 # BUILD_DATE = $(shell date -u +'%Y-%m-%dT%H:%M:%SZ')
 
-.PHONY: list clean_qemu get_qemu build_arch build debug run output commit push_master push_tagged
+.PHONY: list git_push output build debug run test docker_push docker_push_latest
 
 
 list:
@@ -47,15 +47,15 @@ build:
 	)
 	
 
+run:
+	@docker run --rm \
+		$(DOCKER_IMAGE):$(DOCKER_TAG) &
+
+
 debug:
 	@docker run --rm -ti \
 		$(DOCKER_IMAGE):$(DOCKER_TAG) \
 		/bin/bash
-
-
-run:
-	@docker run --rm \
-		$(DOCKER_IMAGE):$(DOCKER_TAG) &
 
 
 test:
