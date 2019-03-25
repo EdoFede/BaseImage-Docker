@@ -19,11 +19,11 @@ before_deploy:
 
 deploy:
   - provider: script
-    script: make docker_push
+    script: make docker_push VERSION=$TRAVIS_BRANCH
     on:
       branch: master
   - provider: script
-    script: make docker_push_latest
+    script: make docker_push_latest VERSION=$TRAVIS_BRANCH
     on:
       tags: true
 
