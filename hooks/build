@@ -3,20 +3,4 @@
 # https://docs.docker.com/docker-cloud/builds/advanced/
 
 echo "### Custom build hook running... ###"
-
-ARCH=amd64
-ALPINE_BRANCH=latest
-BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-VERSION=master
-VCS_REF=master
-
-mkdir -p build_tmp/qemu
-touch build_tmp/qemu/dummy
-
-docker build . \
-	--tag $IMAGE_NAME \
-	--build-arg ARCH=$ARCH \
-	--build-arg ALPINE_BRANCH=$ALPINE_BRANCH \
-	--build-arg BUILD_DATE=$BUILD_DATE \
-	--build-arg VERSION=$VERSION \
-	--build-arg VCS_REF=$VCS_REF
+echo "Skipping build (done from Travis-CI)"
