@@ -1,17 +1,23 @@
 # Docker base image
-A base Alpine image .
+A base Alpine image with runit and syslog-ng
 
 [![](https://images.microbadger.com/badges/image/edofede/baseimage.svg)](https://microbadger.com/images/edofede/baseimage "Get your own image badge on microbadger.com")
-[![](https://images.microbadger.com/badges/version/edofede/baseimage.svg)](https://microbadger.com/images/edofede/baseimage "Get your own version badge on microbadger.com")
-![](https://img.shields.io/github/last-commit/EdoFede/BaseImage-Docker.svg)
-![](https://img.shields.io/github/license/EdoFede/BaseImage-Docker.svg)  
-![](https://img.shields.io/docker/pulls/edofede/baseimage.svg)
+[![](https://images.microbadger.com/badges/version/edofede/baseimage.svg)](https://github.com/EdoFede/BaseImage-Docker/releases)
+[![](https://img.shields.io/github/last-commit/EdoFede/BaseImage-Docker.svg)](https://github.com/EdoFede/BaseImage-Docker/commits/master)
+[![](https://img.shields.io/github/license/EdoFede/BaseImage-Docker.svg)](https://github.com/EdoFede/BaseImage-Docker/blob/master/LICENSE)  
+[![](https://img.shields.io/docker/pulls/edofede/baseimage.svg)](https://hub.docker.com/r/edofede/baseimage)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/3aa769f5cc2847d495ebf2bd11a770df)](https://www.codacy.com/app/EdoFede/BaseImage-Docker?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=EdoFede/BaseImage-Docker&amp;utm_campaign=Badge_Grade)
-![](https://img.shields.io/badge/If%20you%20can%20read%20this-you%20don't%20need%20glasses-green.svg)
+[![](https://img.shields.io/badge/If%20you%20can%20read%20this-you%20don't%20need%20glasses-green.svg)](https://shields.io)
 
 ## Introduction
 This Docker image is based on Alpine linux and is intended to be used ad a base image to run services inside a container.
 On top of Alpine, [runit](http://smarden.org/runit/) is used as init scheme and service supervisor and [syslog-ng](https://www.syslog-ng.com/products/open-source-log-management/) is used to collect logs and redirect it to Docker logs (via stderr and stdout).
+
+## Multi-Architecture
+This image is built with multiple CPU architecture support.  
+As stated in Docker best-practice, the image is tagged and released with current version tag for many cpu architectures and a manifest "general" version tag, which automatically points to the right architecture when you use the image.
+
+I also add the "latest" manifest tag every time I release a new version.
 
 ## How to use
 ### Use as base image
@@ -74,3 +80,9 @@ For additional information or advanced configuration, please read the [runit gui
 ### Set timezone
 The image comes with tzdata already installed (and timzone setted to Europe/Rome).
 To set a new timezone, launch a bash command and follow [this guide](https://wiki.alpinelinux.org/wiki/Setting_the_timezone) (skip the first command).
+
+## Support me
+I treat these free projects exactly like professional works and I'm glad to share it, with some of my knowledge, for free.
+
+If you found my work useful and want to support me, you can donate me a little amount  
+[![Donate](https://img.shields.io/badge/Donate-Paypal-2997D8.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JA8LPLG38EVK2&currency_code=EUR&source=url)
