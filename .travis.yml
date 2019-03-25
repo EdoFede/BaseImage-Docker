@@ -9,8 +9,8 @@ install:
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
 
 script: 
-  - make build VERSION=$TRAVIS_BRANCH GITHUB_TOKEN=$GITHUB_TOKEN
-  - make test_all VERSION=$TRAVIS_BRANCH
+  - make build BRANCH=$TRAVIS_BRANCH GIT_COMMIT=$TRAVIS_COMMIT GITHUB_TOKEN=$GITHUB_TOKEN
+  - make test_all BRANCH=$TRAVIS_BRANCH
 
 after_script: docker images
 
@@ -19,11 +19,11 @@ before_deploy:
 
 deploy:
   - provider: script
-    script: make docker_push VERSION=$TRAVIS_BRANCH
+    script: make docker_push BRANCH=$TRAVIS_BRANCH
     on:
       branch: master
   - provider: script
-    script: make docker_push_latest VERSION=$TRAVIS_BRANCH
+    script: make docker_push_latest BRANCH=$TRAVIS_BRANCH
     on:
       tags: true
 
