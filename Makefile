@@ -8,7 +8,7 @@ ALPINE_BRANCH ?= 3.9.2
 
 GITHUB_TOKEN ?= 
 
-BRANCH =
+BRANCH ?=
 VERSION ?= devel
 DOCKER_TAG = $(shell echo $(VERSION) |sed 's/^v//')
 GIT_COMMIT = $(strip $(shell git rev-parse --short HEAD))
