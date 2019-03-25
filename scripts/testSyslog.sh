@@ -1,38 +1,60 @@
 #!/bin/bash
 
-printf "\n########## Checking image: edofede/baseimage:$1 ##########\n"
+source scripts/multiArchMatrix.sh
+source scripts/logger.sh
 
-printf "###### Creating test container ######\n"
+function cleanup () {
+	logSubTitle "Stopping test container"
+	docker stop BaseImage-test
+	logSubTitle "Removing test container"
+	docker rm BaseImage-test
+}
+
+
+echo ""
+logTitle "Testing image: edofede/nginx-php-fpm:$1"
+
+logSubTitle "Creating test container"
 docker create --name BaseImage-test edofede/baseimage:$1
-printf "###### Starting test container ######\n"
+
+
+logSubTitle "Starting test container"
 docker start BaseImage-test
 sleep 2
 
-printf "###### Checking syslog-ng startup ######\n"
+
+logSubTitle "Checking syslog-ng startup"
 log=$(docker logs --tail 1 BaseImage-test |sed 's/.*\(syslog-ng starting up\).*/\1/')
 if [[ "$log" != "syslog-ng starting up" ]]; then
-	printf "Error: syslog-ng not started\n"
+	logError "Error: syslog-ng not started"
+	logError "Aborting..."
+	cleanup
 	exit 1;
 fi
+logNormal "[OK] Test passed"
 
 
-
+logSubTitle "Checking STDOUT logging"
 docker exec -ti BaseImage-test logger "STDOUT test message"
 log=$(docker logs --tail 1 BaseImage-test |sed 's/.*\(STDOUT test message\).*/\1/')
 if [[ "$log" != "STDOUT test message" ]]; then
-	printf "Error: test message to STDOUT failed\n"
+	logError "Error: test message to STDOUT failed"
+	logError "Aborting..."
+	cleanup
 	exit 1;
 fi
+logNormal "[OK] Test passed"
 
 
+logSubTitle "Checking STDERR logging"
 docker exec -ti BaseImage-test logger -s "STDERR test message"
 log=$(docker logs --tail 1 BaseImage-test |sed 's/.*\(STDERR test message\).*/\1/')
 if [[ "$log" != "STDERR test message" ]]; then
-	printf "Error: test message to STDERR failed\n"
+	logError "Error: test message to STDERR failed"
+	logError "Aborting..."
+	cleanup
 	exit 1;
 fi
+logNormal "[OK] Test passed"
 
-printf "###### Stopping test container ######\n"
-docker stop BaseImage-test
-printf "###### Removing test container ######\n"
-docker rm BaseImage-test
+cleanup

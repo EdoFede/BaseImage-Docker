@@ -2,9 +2,10 @@
 set -e
 
 source scripts/multiArchMatrix.sh
+source scripts/logger.sh
 
 showHelp() {
-	echo "Usage: $0 -i <image name> -t <tag name> -a <target arch> -b <alpine linux branch> -v <version> -r <vcs reference> -g <github token>"
+	echo "Usage: $0 -i <Image name> -t <Tag name> -a <Target architecture> -b <Baseimage branch> -v <version> -r <VCS reference> -g <GitHub auth token>"
 }
 
 while getopts :hi:t:a:b:v:r:g: opt; do
@@ -23,7 +24,7 @@ while getopts :hi:t:a:b:v:r:g: opt; do
 			ARCH=$OPTARG
 			;;
 		b)
-			ALPINE_BRANCH=$OPTARG
+			BASEIMAGE_BRANCH=$OPTARG
 			;;
 		v)
 			VERSION=$OPTARG
@@ -52,15 +53,20 @@ while getopts :hi:t:a:b:v:r:g: opt; do
 done
 shift "$((OPTIND-1))"
 
-printf "\\n### Building image ###\\n"
-printf "Docker image: $DOCKER_IMAGE\\n"
-printf "Docker tag: $DOCKER_TAG\\n"
+echo ""
+logTitle "Build parameters"
+logSubTitle "Docker image: $DOCKER_IMAGE"
+logSubTitle "Docker tag: $DOCKER_TAG"
+logSubTitle "Architecture: $ARCH"
+logSubTitle "Baseimage branch: $BASEIMAGE_BRANCH"
+logSubTitle "Image version: $VERSION"
+logSubTitle "VCS reference: $VCS_REF"
+echo ""
 
-printf "Architecture: $ARCH\\n"
-printf "Alpine branch: $ALPINE_BRANCH\\n"
-printf "Image version: $VERSION\\n"
-printf "VCS reference: $VCS_REF\\n"
+BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
 
+
+logTitle "Setting up multiarch build environment"
 rm -rf build_tmp/
 mkdir -p build_tmp/qemu
 
@@ -94,17 +100,27 @@ if [[ "$QEMU_ARCH" != "NONE" ]]; then
 		build_tmp/qemu-*-static.tar.gz \
 		-C build_tmp/qemu/
 fi
+logNormal "Build done"
 
+logTitle "Start building"
+cmdBuilt="docker build"
+cmdBuilt+=" --build-arg BUILD_DATE=$BUILD_DATE"
+if [[ ! -z $ARCH ]]; then
+	cmdBuilt+=" --build-arg ARCH=$ARCH"
+fi
+if [[ ! -z $BASEIMAGE_BRANCH ]]; then
+	cmdBuilt+=" --build-arg BASEIMAGE_BRANCH=$BASEIMAGE_BRANCH"
+fi
+if [[ ! -z $VERSION ]]; then
+	cmdBuilt+=" --build-arg VERSION=$VERSION"
+fi
+if [[ ! -z $VCS_REF ]]; then
+	cmdBuilt+=" --build-arg VCS_REF=$VCS_REF"
+fi
+cmdBuilt+=" --tag $DOCKER_IMAGE:$DOCKER_TAG-$ARCH"
+cmdBuilt+=" ."
+eval $cmdBuilt
 
-BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-
-docker build \
-	--build-arg ARCH=$ARCH \
-	--build-arg ALPINE_BRANCH=$ALPINE_BRANCH \
-	--build-arg BUILD_DATE=$BUILD_DATE \
-	--build-arg VERSION=$VERSION \
-	--build-arg VCS_REF=$VCS_REF \
-	--tag $DOCKER_IMAGE:$DOCKER_TAG-$ARCH \
-	.
+logNormal "Build done"
 
 rm -rf build_tmp/

@@ -5,7 +5,7 @@ DOCKER_IMAGE ?= edofede/baseimage
 ARCHS ?= amd64 arm32v6 arm32v7 i386 ppc64le
 ALPINE_BRANCH ?= 3.9.2
 
-GITHUB_TOKEN ?= 
+GITHUB_TOKEN ?= "NONE"
 
 BRANCH ?= $(shell git branch |grep \* |cut -d ' ' -f2)
 DOCKER_TAG = $(shell echo $(BRANCH) |sed 's/^v//')
