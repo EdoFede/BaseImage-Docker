@@ -31,6 +31,7 @@ else
 	git commit -S -m "$(COMMENT)"
 
 	BRANCH = $(or $(BRANCH),$(devel))
+	echo $(BRANCH)
 # ifeq ($(BRANCH),)
 # 	BRANCH := devel
 # endif
