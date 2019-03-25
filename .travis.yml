@@ -10,6 +10,7 @@ install:
 
 script: 
   - make build VERSION=$TRAVIS_BRANCH GITHUB_TOKEN=$GITHUB_TOKEN
+  - make test_all VERSION=$TRAVIS_BRANCH
 
 after_script: docker images
 
