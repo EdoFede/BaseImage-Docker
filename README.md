@@ -87,3 +87,12 @@ I treat these free projects exactly like professional works and I'm glad to shar
 
 If you found my work useful and want to support me, you can donate me a little amount  
 [![Donate](https://img.shields.io/badge/Donate-Paypal-2997D8.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JA8LPLG38EVK2&currency_code=EUR&source=url)
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+<input type="hidden" name="cmd" value="_donations" />
+<input type="hidden" name="business" value="JA8LPLG38EVK2" />
+<input type="hidden" name="currency_code" value="EUR" />
+<input type="image" src="https://img.shields.io/badge/Donate-Paypal-2997D8.svg" border="0" name="submit" title="Support me" alt="Support me" />
+<img alt="" border="0" src="https://www.paypal.com/en_IT/i/scr/pixel.gif" width="1" height="1" />
+</form>
+
