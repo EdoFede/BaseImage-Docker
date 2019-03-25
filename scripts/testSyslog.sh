@@ -1,7 +1,9 @@
 #!/bin/bash
 
+printf "\n########## Checking image: edofede/baseimage:$1 ##########\n"
+
 printf "###### Creating test container ######\n"
-docker create --name BaseImage-test edofede/baseimage:latest
+docker create --name BaseImage-test edofede/baseimage:$1
 printf "###### Starting test container ######\n"
 docker start BaseImage-test
 sleep 2

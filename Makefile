@@ -15,7 +15,7 @@ GIT_COMMIT = $(strip $(shell git rev-parse --short HEAD))
 # GIT_URL = $(shell git config --get remote.origin.url)
 # BUILD_DATE = $(shell date -u +'%Y-%m-%dT%H:%M:%SZ')
 
-.PHONY: list git_push output build debug run test docker_push docker_push_latest
+.PHONY: list git_push output build debug run test test_all docker_push docker_push_latest
 
 
 list:
@@ -59,7 +59,13 @@ debug:
 
 
 test:
-	@./scripts/testSyslog.sh
+	@./scripts/testSyslog.sh $(DOCKER_TAG)
+
+
+test_all:
+	@$(foreach ARCH,$(ARCHS), \
+		./scripts/testSyslog.sh $(DOCKER_TAG)-$(ARCH); \
+	)
 
 
 docker_push:

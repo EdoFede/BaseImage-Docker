@@ -74,4 +74,3 @@ For additional information or advanced configuration, please read the [runit gui
 ### Set timezone
 The image comes with tzdata already installed (and timzone setted to Europe/Rome).
 To set a new timezone, launch a bash command and follow [this guide](https://wiki.alpinelinux.org/wiki/Setting_the_timezone) (skip the first command).
-
