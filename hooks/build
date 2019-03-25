@@ -10,6 +10,8 @@ BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
 VERSION=master
 VCS_REF=master
 
+mkdir -p build_tmp/qemu
+
 docker build . \
 	--tag $IMAGE_NAME \
 	--build-arg ARCH=$ARCH \

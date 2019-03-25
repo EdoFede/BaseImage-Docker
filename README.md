@@ -6,8 +6,8 @@ A base Alpine image with runit and syslog-ng
 [![](https://img.shields.io/github/last-commit/EdoFede/BaseImage-Docker.svg)](https://github.com/EdoFede/BaseImage-Docker/commits/master)
 [![](https://img.shields.io/github/license/EdoFede/BaseImage-Docker.svg)](https://github.com/EdoFede/BaseImage-Docker/blob/master/LICENSE)  
 [![](https://img.shields.io/docker/pulls/edofede/baseimage.svg)](https://hub.docker.com/r/edofede/baseimage)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3aa769f5cc2847d495ebf2bd11a770df)](https://www.codacy.com/app/EdoFede/BaseImage-Docker?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=EdoFede/BaseImage-Docker&amp;utm_campaign=Badge_Grade)
-[![](https://img.shields.io/badge/If%20you%20can%20read%20this-you%20don't%20need%20glasses-green.svg)](https://shields.io)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3aa769f5cc2847d495ebf2bd11a770df)](https://www.codacy.com/app/EdoFede/BaseImage-Docker?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=EdoFede/BaseImage-Docker&amp;utm_campaign=Badge_Grade)  
+[![](https://img.shields.io/badge/If%20you%20can%20read%20this-you%20don't%20need%20glasses-brightgreen.svg)](https://shields.io)
 
 ## Introduction
 This Docker image is based on Alpine linux and is intended to be used ad a base image to run services inside a container.

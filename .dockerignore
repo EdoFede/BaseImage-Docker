@@ -1,6 +1,5 @@
 *
 !README*.md
-!build_tmp/qemu
 !imageFiles/*
 
 ######################
