@@ -1,2 +1,5 @@
 #!/bin/bash
+# hooks/push
+# https://docs.docker.com/docker-cloud/builds/advanced/
+
 echo "Skipping push (done from Travis-CI)"
