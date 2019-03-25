@@ -79,22 +79,24 @@ docker manifest push --purge $DOCKER_IMAGE:$DOCKER_TAG
 
 
 ### Latest tag ###
-# Create latest manifest
-cmdCreate="docker manifest create --amend $DOCKER_IMAGE:latest "
-for i in ${!ARCHS[@]}; do
-	cmdCreate+="$DOCKER_IMAGE:$DOCKER_TAG-${ARCHS[i]} "
-done
-eval $cmdCreate
-
-# Annotate manifest
-for i in ${!ARCHS[@]}; do
-	cmdAnnotate="docker manifest annotate $DOCKER_IMAGE:latest $DOCKER_IMAGE:$DOCKER_TAG-${ARCHS[i]}"
-	cmdAnnotate+=" --os linux"
-	cmdAnnotate+=" --arch ${DOCKER_ARCHS[i]}"
-	if [[ "${ARCH_VARIANTS[i]}" != "NONE" ]]; then
-		cmdAnnotate+=" --variant ${ARCH_VARIANTS[i]}"
-	fi
-	eval $cmdAnnotate
-done
-# Push latest manifest to Docker HUB
-docker manifest push --purge $DOCKER_IMAGE:latest
+if [ $TAG_LATEST == 1 ] ; then
+	# Create latest manifest
+	cmdCreate="docker manifest create --amend $DOCKER_IMAGE:latest "
+	for i in ${!ARCHS[@]}; do
+		cmdCreate+="$DOCKER_IMAGE:$DOCKER_TAG-${ARCHS[i]} "
+	done
+	eval $cmdCreate
+	
+	# Annotate manifest
+	for i in ${!ARCHS[@]}; do
+		cmdAnnotate="docker manifest annotate $DOCKER_IMAGE:latest $DOCKER_IMAGE:$DOCKER_TAG-${ARCHS[i]}"
+		cmdAnnotate+=" --os linux"
+		cmdAnnotate+=" --arch ${DOCKER_ARCHS[i]}"
+		if [[ "${ARCH_VARIANTS[i]}" != "NONE" ]]; then
+			cmdAnnotate+=" --variant ${ARCH_VARIANTS[i]}"
+		fi
+		eval $cmdAnnotate
+	done
+	# Push latest manifest to Docker HUB
+	docker manifest push --purge $DOCKER_IMAGE:latest
+fi

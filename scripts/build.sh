@@ -103,7 +103,7 @@ docker build \
 	--build-arg ALPINE_BRANCH=$ALPINE_BRANCH \
 	--build-arg BUILD_DATE=$BUILD_DATE \
 	--build-arg VERSION=$VERSION \
-	--build-arg VCS_REF=$GIT_COMMIT \
+	--build-arg VCS_REF=$VCS_REF \
 	--tag $DOCKER_IMAGE:$DOCKER_TAG-$ARCH \
 	.
 
