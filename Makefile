@@ -8,7 +8,7 @@ ALPINE_BRANCH ?= 3.9.2
 
 GITHUB_TOKEN ?= 
 
-# BRANCH ?=
+BRANCH ?= devel
 VERSION ?= devel
 DOCKER_TAG = $(shell echo $(VERSION) |sed 's/^v//')
 GIT_COMMIT = $(strip $(shell git rev-parse --short HEAD))
@@ -29,12 +29,6 @@ ifndef COMMENT
 else
 	git add .
 	git commit -S -m "$(COMMENT)"
-
-	BRANCH = $(or $(BRANCH),$(devel))
-	echo $(BRANCH)
-# ifeq ($(BRANCH),)
-# 	BRANCH := devel
-# endif
 	git push origin $(BRANCH)
 endif
 
