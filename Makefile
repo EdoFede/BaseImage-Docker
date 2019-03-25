@@ -3,7 +3,7 @@ default: list
 DOCKER_IMAGE ?= edofede/baseimage
 # COMMENT ?= Automated commit from Makefile
 
-ARCHS ?= amd64 arm32v6 arm32v7 i386 ppc64le s390x
+ARCHS ?= amd64 arm32v6 arm32v7 i386 ppc64le
 ALPINE_BRANCH ?= 3.9.2
 
 GITHUB_TOKEN ?= 
