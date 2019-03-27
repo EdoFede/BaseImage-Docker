@@ -12,7 +12,7 @@ function cleanup () {
 
 
 echo ""
-logTitle "Testing image: edofede/nginx-php-fpm:$1"
+logTitle "Testing image: edofede/baseimage:$1"
 
 logSubTitle "Creating test container"
 docker create --name BaseImage-test edofede/baseimage:$1
