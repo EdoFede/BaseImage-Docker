@@ -7,6 +7,7 @@ ALPINE_BRANCH ?= 3.9.2
 
 GITHUB_TOKEN ?= "NONE"
 
+ARCH ?= amd64
 BRANCH ?= $(shell git branch |grep \* |cut -d ' ' -f2)
 DOCKER_TAG = $(shell echo $(BRANCH) |sed 's/^v//')
 GIT_COMMIT ?= $(strip $(shell git rev-parse --short HEAD))
@@ -68,7 +69,7 @@ debug:
 
 
 test:
-	@./scripts/testSyslog.sh $(DOCKER_TAG)
+	@./scripts/testSyslog.sh $(DOCKER_TAG)-$(ARCH)
 
 
 test_all:
