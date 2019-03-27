@@ -1,0 +1,24 @@
+#!/bin/bash
+# Dummy service used to run scripts after services start
+
+set -eu
+exec 2>&1
+
+# Wait for services start
+sleep 5
+for service in $(ls /etc/service); do
+	while true; do
+		status=$(sv check $service |grep run)
+		if [[ ! -z $status ]]; then
+			break
+		fi
+		sleep 1
+	done
+done
+
+# Execute scripts
+logger -t postScripts-handler "Starting postScripts (/etc/runit/2.d/*)"
+/bin/run-parts --exit-on-error /etc/runit/2.d
+
+# Never exits (runit service manager will not fail)
+while true; do sleep 1d; done

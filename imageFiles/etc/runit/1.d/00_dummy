@@ -1,0 +1,5 @@
+#!/bin/bash
+# Dummy script
+
+echo "Stage 1 scripts started"
+exit 0

@@ -12,7 +12,7 @@ DOCKER_TAG = $(shell echo $(BRANCH) |sed 's/^v//')
 GIT_COMMIT ?= $(strip $(shell git rev-parse --short HEAD))
 
 
-.PHONY: list git_push output build debug run test test_all docker_push docker_push_latest
+.PHONY: list git_push output build debug run test test_all clean docker_push docker_push_latest
 
 
 list:
@@ -26,6 +26,7 @@ list:
 	@printf "\\tmake debug \\ \\n\\t\\t[BRANCH=<GitHub branch> (default: \`git branch |grep \* |cut -d ' ' -f2\`)] \\n"
 	@printf "\\tmake test \\ \\n\\t\\t[BRANCH=<GitHub branch> (default: \`git branch |grep \* |cut -d ' ' -f2\`)] \\n"
 	@printf "\\tmake test_all \\ \\n\\t\\t[BRANCH=<GitHub branch> (default: \`git branch |grep \* |cut -d ' ' -f2\`)] \\ \\n\\t\\t[ARCHS=<List of architectures to build> (default: amd64 arm32v6 arm32v7 i386 ppc64le)] \\n"
+	@printf "\\tmake clean \\n"
 	@printf "\\tmake docker_push \\ \\n\\t\\t[BRANCH=<GitHub branch> (default: \`git branch |grep \* |cut -d ' ' -f2\`)] \\n"
 	@printf "\\tmake docker_push_latest \\ \\n\\t\\t[BRANCH=<GitHub branch> (default: \`git branch |grep \* |cut -d ' ' -f2\`)] \\n"
 
@@ -34,9 +35,9 @@ git_push:
 ifndef COMMENT
 	@printf "Add comment to current commit: \\nSyntax: make git_push COMMENT=\"xxxx\"\\n"
 else
-	git add .
-	git commit -S -m "$(COMMENT)"
-	git push origin $(BRANCH)
+	@git add .
+	@git commit -S -m "$(COMMENT)"
+	@git push origin $(BRANCH)
 endif
 
 
@@ -74,6 +75,13 @@ test_all:
 	@$(foreach ARCH,$(ARCHS), \
 		./scripts/testSyslog.sh $(DOCKER_TAG)-$(ARCH); \
 	)
+
+
+clean:
+	@docker stop $(shell docker ps -q `docker image ls -q $(DOCKER_IMAGE) |sed 's/.*/ --filter ancestor=&/'`) || exit 0
+	@docker rm $(shell docker ps -a -q `docker image ls -q $(DOCKER_IMAGE) |sed 's/.*/ --filter ancestor=&/'`) || exit 0
+	@docker image rm $(shell docker image ls -a -q $(DOCKER_IMAGE)) || exit 0
+	@docker image prune -f
 
 
 docker_push:

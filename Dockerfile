@@ -25,6 +25,7 @@ RUN chmod +x /entrypoint.sh && \
 	chmod +x /etc/runit/1 /etc/runit/2 /etc/runit/3 && \
 	chmod +x /etc/sv/syslog-ng/run && \
 	ln -sf /etc/sv/syslog-ng /etc/service/ && \
+	ln -sf /etc/sv/postScripts-handler /etc/service/ && \
 	sed -i "s/^\(tty\d\:\:\)/#\\1/g" /etc/inittab
 
 ARG BUILD_DATE

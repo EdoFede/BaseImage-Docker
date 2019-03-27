@@ -1,0 +1,5 @@
+#!/bin/bash
+# Dummy script
+
+logger -t "2.d Dummy script" "Stage 2 scripts started (after services)"
+exit 0
