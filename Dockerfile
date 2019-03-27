@@ -28,7 +28,7 @@ RUN chmod +x /entrypoint.sh && \
 	sed -i "s/^\(tty\d\:\:\)/#\\1/g" /etc/inittab
 
 ARG BUILD_DATE
-ARG VERSION="devel"
+ARG VERSION
 ARG VCS_REF
 
 LABEL 	maintainer="Edoardo Federici <hello@edoardofederici.com>" \

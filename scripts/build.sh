@@ -70,10 +70,10 @@ logTitle "Setting up multiarch build environment"
 rm -rf build_tmp/
 mkdir -p build_tmp/qemu
 
-if [[ -z GITHUB_TOKEN ]]; then
-	QEMU_RELEASE=$(curl --silent --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 1 --retry-max-time 60 "https://api.github.com/repos/multiarch/qemu-user-static/releases/latest" |grep '"tag_name":' |sed -E 's/.*"([^"]+)".*/\1/')
+if [[ -z GITHUB_TOKEN || "$GITHUB_TOKEN" == "NONE" ]]; then
+	QEMU_RELEASE=$(curl -sS --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 1 --retry-max-time 60 "https://api.github.com/repos/multiarch/qemu-user-static/releases/latest" |grep '"tag_name":' |sed -E 's/.*"([^"]+)".*/\1/')
 else
-	QEMU_RELEASE=$(curl -u EdoFede:$GITHUB_TOKEN --silent --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 1 --retry-max-time 60 "https://api.github.com/repos/multiarch/qemu-user-static/releases/latest" |grep '"tag_name":' |sed -E 's/.*"([^"]+)".*/\1/')	
+	QEMU_RELEASE=$(curl -u EdoFede:$GITHUB_TOKEN -sS --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 1 --retry-max-time 60 "https://api.github.com/repos/multiarch/qemu-user-static/releases/latest" |grep '"tag_name":' |sed -E 's/.*"([^"]+)".*/\1/')	
 fi
 
 if [[ -z QEMU_RELEASE ]]; then
@@ -88,7 +88,7 @@ for i in ${!ARCHS[@]}; do
 done
 
 if [[ "$QEMU_ARCH" != "NONE" ]]; then
-	curl -L \
+	curl -sS -L \
 		--connect-timeout 5 \
 		--max-time 10 \
 		--retry 5 \
@@ -100,7 +100,7 @@ if [[ "$QEMU_ARCH" != "NONE" ]]; then
 		build_tmp/qemu-*-static.tar.gz \
 		-C build_tmp/qemu/
 fi
-logNormal "Build done"
+logNormal "Done"
 
 logTitle "Start building"
 cmdBuilt="docker build"
