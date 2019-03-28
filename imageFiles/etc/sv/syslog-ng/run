@@ -6,6 +6,9 @@ if [ ! -S /dev/log ]; then rm -f /dev/log; fi
 if [ ! -S /var/lib/syslog-ng/syslog-ng.ctl ]; then rm -f /var/lib/syslog-ng/syslog-ng.ctl; fi
 
 CMD=/usr/sbin/syslog-ng
-PIDFILE="/var/run/syslog-ng.pid"
+PID=/run/syslog-ng/syslog-ng.pid
+PERSIST=/run/syslog-ng/syslog-ng.persist
 
-exec ${CMD} --pidfile "$PIDFILE" --foreground
+install -d ${PID%/*}
+
+exec ${CMD} --pidfile $PID --persist-file $PERSIST --foreground
