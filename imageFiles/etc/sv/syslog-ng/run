@@ -1,5 +1,11 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 set -eu
 exec 2>&1
 
-/usr/sbin/syslog-ng --foreground
+if [ ! -S /dev/log ]; then rm -f /dev/log; fi
+if [ ! -S /var/lib/syslog-ng/syslog-ng.ctl ]; then rm -f /var/lib/syslog-ng/syslog-ng.ctl; fi
+
+CMD=/usr/sbin/syslog-ng
+PIDFILE="/var/run/syslog-ng.pid"
+
+exec ${CMD} --pidfile "$PIDFILE" --foreground
