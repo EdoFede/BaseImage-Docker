@@ -28,7 +28,7 @@ sleep 4
 
 logSubTitle "Checking syslog-ng startup"
 log=$(docker logs $CONTAINER 2>&1 |grep 'syslog-ng starting up' |sed 's/.*\(syslog-ng starting up\).*/\1/')
-if [[ "$log" != "syslog-ng starting up" ]]; then
+if [ "$log" != "syslog-ng starting up" ]; then
 	logError "Error: syslog-ng not started"
 	logError "Aborting..."
 	cleanup
@@ -40,7 +40,7 @@ logNormal "[OK] Test passed"
 logSubTitle "Checking STDOUT logging"
 docker exec -ti $CONTAINER logger "STDOUT test message"
 log=$(docker logs --tail 1 $CONTAINER |sed 's/.*\(STDOUT test message\).*/\1/')
-if [[ "$log" != "STDOUT test message" ]]; then
+if [ "$log" != "STDOUT test message" ]; then
 	logError "Error: test message to STDOUT failed"
 	logError "Aborting..."
 	cleanup
@@ -52,7 +52,7 @@ logNormal "[OK] Test passed"
 logSubTitle "Checking STDERR logging"
 docker exec -ti $CONTAINER logger -s "STDERR test message"
 log=$(docker logs --tail 1 $CONTAINER |sed 's/.*\(STDERR test message\).*/\1/')
-if [[ "$log" != "STDERR test message" ]]; then
+if [ "$log" != "STDERR test message" ]; then
 	logError "Error: test message to STDERR failed"
 	logError "Aborting..."
 	cleanup
@@ -61,3 +61,4 @@ fi
 logNormal "[OK] Test passed"
 
 cleanup
+logNormal "Done"

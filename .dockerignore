@@ -1,7 +1,7 @@
 *
 !README*.md
-!imageFiles/*
 !build_tmp/*
+!imageFiles/*
 
 ######################
 # OS generated files #
