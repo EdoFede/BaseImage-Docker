@@ -9,5 +9,5 @@ sv -w196 force-stop /etc/service/*
 sv exit /etc/service/*
 
 for PID in $(ps -eo "pid,stat" |grep "Z" |tr -d " " |sed "s/.$//" |sed "1d"); do
-	timeout -t 5 /bin/sh -c "kill $PID && wait $PID || kill -9 $PID"
+	timeout 5 /bin/sh -c "kill $PID && wait $PID || kill -9 $PID"
 done
