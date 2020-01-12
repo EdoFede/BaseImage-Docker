@@ -2,8 +2,8 @@ default: list
 
 DOCKER_IMAGE ?= edofede/baseimage
 
-ARCHS ?= amd64 arm32v6 arm32v7 i386 ppc64le
-BASEIMAGE_BRANCH ?= 3.10.2
+ARCHS ?= amd64 arm32v6 arm32v7 arm64v8 i386 ppc64le
+BASEIMAGE_BRANCH ?= 3.11.2
 
 GITHUB_TOKEN ?= "NONE"
 
