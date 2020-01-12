@@ -12,7 +12,7 @@ before_install:
 install:
   - ./scripts/travisDockerSetup.sh
   - docker pull multiarch/qemu-user-static:register
-  - docker run --rm --privileged multiarch/qemu-user-static:register --reset
+  - sudo docker run --rm --privileged multiarch/qemu-user-static:register --reset
 
 script: 
   - make build BRANCH=$TRAVIS_BRANCH GIT_COMMIT=$(git rev-parse --short $TRAVIS_COMMIT) GITHUB_TOKEN=$GITHUB_TOKEN
