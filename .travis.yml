@@ -32,3 +32,4 @@ deploy:
     script: make docker_push_latest BRANCH=$TRAVIS_BRANCH
     on:
       tags: true
+      
