@@ -75,6 +75,22 @@ else
 endif
 
 
+build_push:
+ifndef ARCH
+	@scripts/build.sh -i $(DOCKER_IMAGE) -t $(DOCKER_TAG) \
+		-b $(BASEIMAGE_BRANCH) \
+		-v $(BRANCH) \
+		-r $(GIT_COMMIT) \
+		-g $(GITHUB_TOKEN) ;
+else
+	@scripts/build.sh -i $(DOCKER_IMAGE) -t $(DOCKER_TAG) \
+		-a $(ARCH) \
+		-b $(BASEIMAGE_BRANCH) \
+		-v $(BRANCH) \
+		-r $(GIT_COMMIT) \
+		-g $(GITHUB_TOKEN) ;
+endif
+
 run:
 	@scripts/run.sh -i $(DOCKER_TEST_IMAGE) -t $(DOCKER_TAG) \
 		-p $(PLATFORM) \

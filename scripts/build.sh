@@ -130,7 +130,7 @@ fi
 if [ ! -z $VCS_REF ]; then
 	cmdBuild+=" --build-arg VCS_REF=$VCS_REF"
 fi
-cmdBuild+=" --tag localhost:5000/$DOCKER_IMAGE:$DOCKER_TAG"
+cmdBuild+=" --tag $DOCKER_IMAGE:$DOCKER_TAG"
 cmdBuild+=" --push"
 cmdBuild+=" ."
 
