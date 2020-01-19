@@ -8,6 +8,7 @@ sudo cat /etc/docker/daemon.json
 echo ""
 echo -e "\033[0;34m# Enabling Docker engine experimental mode \033[0m"
 echo '{"registry-mirrors": ["https://mirror.gcr.io"], "mtu": 1460, "experimental":"enabled"}' | sudo tee /etc/docker/daemon.json
+sudo chown travis:travis /etc/docker/daemon.json
 
 # echo ""
 # echo -e "\033[0;34m# Restarting Docker service \033[0m"
@@ -20,6 +21,7 @@ sudo systemctl status docker.service
 
 echo ""
 echo -e "\033[0;34m# NEW Docker engine config file \033[0m"
+sudo ls -la /etc/docker/daemon.json
 sudo cat /etc/docker/daemon.json
 
 
