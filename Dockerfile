@@ -1,8 +1,5 @@
-ARG ARCH
 ARG BASEIMAGE_BRANCH
-FROM $ARCH/alpine:$BASEIMAGE_BRANCH
-
-COPY build_tmp/qemu/ /usr/bin/
+FROM alpine:$BASEIMAGE_BRANCH
 
 # Install required software
 RUN	apk update && \

@@ -1,13 +1,18 @@
 default: list
 
-DOCKER_IMAGE ?= edofede/baseimage
+IMAGE_NAME = baseimage
+DOCKER_HUB_REPO = edofede
+DOCKER_LOCAL_REPO = localhost:5000
+
+DOCKER_IMAGE ?= $(DOCKER_HUB_REPO)/$(IMAGE_NAME)
+DOCKER_TEST_IMAGE = $(DOCKER_LOCAL_REPO)/$(IMAGE_NAME)
 
 ARCHS ?= amd64 arm32v6 arm32v7 arm64v8 i386 ppc64le
-BASEIMAGE_BRANCH ?= 3.11.2
+PLATFORM ?= amd64
+BASEIMAGE_BRANCH ?= 3.11.3
 
 GITHUB_TOKEN ?= "NONE"
 
-ARCH ?= amd64
 BRANCH ?= $(shell git branch |grep \* |cut -d ' ' -f2)
 DOCKER_TAG = $(shell echo $(BRANCH) |sed 's/^v//')
 GIT_COMMIT ?= $(strip $(shell git rev-parse --short HEAD))
@@ -23,11 +28,11 @@ list:
 	@printf "\\tmake git_push \\ \\n\\t\\tCOMMENT=\"<Commit description>\" \\ \\n\\t\\t[BRANCH=<GitHub branch> (default: `git branch |grep \* |cut -d ' ' -f2`)]\\n"
 	@printf "\\tmake git_fix_permission \\n"
 	@printf "\\tmake output \\ \\n\\t\\t[BRANCH=<GitHub branch> (default: `git branch |grep \* |cut -d ' ' -f2`)] \\n"
-	@printf "\\tmake build \\ \\n\\t\\t[BRANCH=<Git destination branch> (default: `git branch |grep \* |cut -d ' ' -f2`)] \\ \\n\\t\\t[ARCHS=<List of architectures to build> (default: $(ARCHS))] \\ \\n\\t\\t[BASEIMAGE_BRANCH=<Baseimage version> (default: $(BASEIMAGE_BRANCH))] \\ \\n\\t\\t[GIT_COMMIT=<Git commit sha> (default: git rev-parse --short HEAD)] \\ \\n\\t\\t[GITHUB_TOKEN=<Github auth token for API>] \\n"
-	@printf "\\tmake run \\ \\n\\t\\t[BRANCH=<GitHub branch> (default: `git branch |grep \* |cut -d ' ' -f2`)] \\ \\n\\t\\t[ARCH=<Architecture> (default: $(ARCH))] \\n"
-	@printf "\\tmake debug \\ \\n\\t\\t[BRANCH=<GitHub branch> (default: `git branch |grep \* |cut -d ' ' -f2`)] \\ \\n\\t\\t[ARCH=<Architecture> (default: $(ARCH))] \\n"
-	@printf "\\tmake test \\ \\n\\t\\t[BRANCH=<GitHub branch> (default: `git branch |grep \* |cut -d ' ' -f2`)] \\ \\n\\t\\t[ARCH=<Architecture> (default: $(ARCH))] \\n"
-	@printf "\\tmake test_all \\ \\n\\t\\t[BRANCH=<GitHub branch> (default: `git branch |grep \* |cut -d ' ' -f2`)] \\ \\n\\t\\t[ARCHS=<List of architectures to test> (default: $(ARCHS))] \\n"
+	@printf "\\tmake build \\ \\n\\t\\t[BRANCH=<Git destination branch> (default: `git branch |grep \* |cut -d ' ' -f2`)] \\ \\n\\t\\t[ARCH=<Architecture to build> (no option = all architectures)] \\ \\n\\t\\t[BASEIMAGE_BRANCH=<Baseimage version> (default: $(BASEIMAGE_BRANCH))] \\ \\n\\t\\t[GIT_COMMIT=<Git commit sha> (default: git rev-parse --short HEAD)] \\ \\n\\t\\t[GITHUB_TOKEN=<Github auth token for API>] \\n"
+	@printf "\\tmake run \\ \\n\\t\\t[BRANCH=<GitHub branch> (default: `git branch |grep \* |cut -d ' ' -f2`)] \\ \\n\\t\\t[PLATFORM=<Architecture> (Default: $(PLATFORM))] \\n"
+	@printf "\\tmake debug \\ \\n\\t\\t[BRANCH=<GitHub branch> (default: `git branch |grep \* |cut -d ' ' -f2`)] \\ \\n\\t\\t[PLATFORM=<Architecture> (Default: $(PLATFORM))] \\n"
+	@printf "\\tmake test \\ \\n\\t\\t[BRANCH=<GitHub branch> (default: `git branch |grep \* |cut -d ' ' -f2`)] \\ \\n\\t\\t[PLATFORM=<Architecture> (Default: $(PLATFORM))] \\n"
+	@printf "\\tmake test_all \\ \\n\\t\\t[BRANCH=<GitHub branch> (default: `git branch |grep \* |cut -d ' ' -f2`)] \\ \\n\\t\\t[ARCH=<Architecture to test> (no option = all architectures)] \\n"
 	@printf "\\tmake clean \\n"
 	@printf "\\tmake docker_push \\ \\n\\t\\t[BRANCH=<GitHub branch> (default: `git branch |grep \* |cut -d ' ' -f2`)] \\n"
 	@printf "\\tmake docker_push_latest \\ \\n\\t\\t[BRANCH=<GitHub branch> (default: `git branch |grep \* |cut -d ' ' -f2`)] \\n"
@@ -54,35 +59,45 @@ output:
 
 
 build:
-	@$(foreach ARCH,$(ARCHS), \
-		scripts/build.sh -i $(DOCKER_IMAGE) -t $(DOCKER_TAG) \
-			-a $(ARCH) \
-			-b $(BASEIMAGE_BRANCH) \
-			-v $(BRANCH) \
-			-r $(GIT_COMMIT) \
-			-g $(GITHUB_TOKEN) ;\
-	)
-	
+ifndef ARCH
+	@scripts/build.sh -i $(DOCKER_TEST_IMAGE) -t $(DOCKER_TAG) \
+		-b $(BASEIMAGE_BRANCH) \
+		-v $(BRANCH) \
+		-r $(GIT_COMMIT) \
+		-g $(GITHUB_TOKEN) ;
+else
+	@scripts/build.sh -i $(DOCKER_TEST_IMAGE) -t $(DOCKER_TAG) \
+		-a $(ARCH) \
+		-b $(BASEIMAGE_BRANCH) \
+		-v $(BRANCH) \
+		-r $(GIT_COMMIT) \
+		-g $(GITHUB_TOKEN) ;
+endif
+
 
 run:
-	@docker run --rm \
-		$(DOCKER_IMAGE):$(DOCKER_TAG)-$(ARCH) &
+	@scripts/run.sh -i $(DOCKER_TEST_IMAGE) -t $(DOCKER_TAG) \
+		-p $(PLATFORM) \
+		-d 0
 
 
 debug:
-	@docker run --rm -ti \
-		$(DOCKER_IMAGE):$(DOCKER_TAG)-$(ARCH) \
-		/bin/bash
+	@scripts/run.sh -i $(DOCKER_TEST_IMAGE) -t $(DOCKER_TAG) \
+		-p $(PLATFORM) \
+		-d 1
 
 
 test:
-	@./scripts/testSyslog.sh $(DOCKER_TAG)-$(ARCH)
+	@scripts/testSyslog.sh \
+		-i $(DOCKER_TEST_IMAGE) \
+		-t $(DOCKER_TAG) \
+		-p $(PLATFORM)
 
 
 test_all:
-	@$(foreach ARCH,$(ARCHS), \
-		./scripts/testSyslog.sh $(DOCKER_TAG)-$(ARCH); \
-	)
+	@scripts/testSyslog.sh \
+		-i $(DOCKER_TEST_IMAGE) \
+		-t $(DOCKER_TAG)
 
 
 clean:
