@@ -2,7 +2,7 @@
 
 echo ""
 echo -e "\033[0;34m# OLD Docker engine config file \033[0m"
-cat /etc/docker/daemon.json
+sudo cat /etc/docker/daemon.json
 
 echo ""
 echo -e "\033[0;34m# Enabling Docker engine experimental mode \033[0m"
@@ -13,7 +13,7 @@ sudo service docker start
 
 echo ""
 echo -e "\033[0;34m# NEW Docker engine config file \033[0m"
-cat /etc/docker/daemon.json
+sudo cat /etc/docker/daemon.json
 
 
 echo ""
