@@ -1,7 +1,4 @@
 #!/bin/bash
-echo '####### Docker version #######'
-docker version
-
 echo ""
 echo -e "\033[0;34m######### Enabling client experimental features #########\033[0m"
 mkdir -p $HOME/.docker
@@ -19,3 +16,7 @@ docker run -d -p 5000:5000 --restart always --name registry registry:2
 
 echo ""
 docker ps -a
+
+echo ""
+echo -e "\033[0;34m######### Docker version #########\033[0m"
+docker version
