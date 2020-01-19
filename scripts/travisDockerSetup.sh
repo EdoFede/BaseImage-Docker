@@ -5,6 +5,28 @@ echo -e "\033[0;34m# OLD Docker engine config file \033[0m"
 sudo ls -la /etc/docker/daemon.json
 sudo cat /etc/docker/daemon.json
 
+
+
+
+echo "sudo ls -la /etc/systemd"
+sudo ls -la /etc/systemd
+echo "sudo ls -la /etc/systemd/system"
+sudo ls -la /etc/systemd/system
+echo "sudo ls -la /etc/systemd/system/docker.service.d"
+sudo ls -la /etc/systemd/system/docker.service.d
+echo "sudo cat /etc/systemd/system/docker.service.d/docker.conf"
+sudo cat /etc/systemd/system/docker.service.d/docker.conf
+
+
+
+
+
+
+
+
+
+
+
 echo ""
 echo -e "\033[0;34m# Enabling Docker engine experimental mode \033[0m"
 echo '{"registry-mirrors": ["https://mirror.gcr.io"], "mtu": 1460, "experimental":"enabled"}' | sudo tee /etc/docker/daemon.json
