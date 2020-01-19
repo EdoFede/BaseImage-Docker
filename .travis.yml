@@ -1,18 +1,25 @@
 sudo: required
 language: bash
 services:
-  - docker
+  # - docker
 
 before_install:
-  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-  - sudo apt-get update
-  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+  - curl -fsSL https://get.docker.com | sh
+  - echo '{"experimental":"enabled"}' | sudo tee /etc/docker/daemon.json
+  - mkdir -p $HOME/.docker
+  - echo '{"experimental":"enabled"}' | sudo tee $HOME/.docker/config.json
+  - sudo service docker start
+  # - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  # - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  # - sudo apt-get update
+  # - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
 
 install:
+  # - docker pull multiarch/qemu-user-static:register
+  # - docker run --rm --privileged multiarch/qemu-user-static:register --reset -p yes
+  - docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+  - docker run -d -p 5000:5000 --restart always --name registry registry:2
   - ./scripts/travisDockerSetup.sh
-  - docker pull multiarch/qemu-user-static:register
-  - docker run --rm --privileged multiarch/qemu-user-static:register --reset -p yes
 
 script: 
   - make build BRANCH=$TRAVIS_BRANCH GIT_COMMIT=$(git rev-parse --short $TRAVIS_COMMIT) GITHUB_TOKEN=$GITHUB_TOKEN

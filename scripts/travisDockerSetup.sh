@@ -1,13 +1,13 @@
 #!/bin/bash
-echo ""
-echo -e "\033[0;34m######### Enabling client experimental features #########\033[0m"
-mkdir -p $HOME/.docker
-echo '{ "experimental": "enabled" }' > $HOME/.docker/config.json
+# echo ""
+# echo -e "\033[0;34m######### Enabling client experimental features #########\033[0m"
+# mkdir -p $HOME/.docker
+# echo '{ "experimental": "enabled" }' > $HOME/.docker/config.json
 
-echo ""
-echo -e "\033[0;34m######### Enabling server experimental features #########\033[0m"
-echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json
-sudo service docker restart
+# echo ""
+# echo -e "\033[0;34m######### Enabling server experimental features #########\033[0m"
+# echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json
+# sudo service docker restart
 
 echo ""
 echo -e "\033[0;34m######### Pulling and starting local registry #########\033[0m"
