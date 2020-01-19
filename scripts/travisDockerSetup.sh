@@ -8,21 +8,10 @@ sudo cat /etc/docker/daemon.json
 
 
 
-echo "sudo ls -la /etc/systemd"
-sudo ls -la /etc/systemd
-echo "sudo ls -la /etc/systemd/system"
-sudo ls -la /etc/systemd/system
-echo "sudo ls -la /etc/systemd/system/docker.service.d"
-sudo ls -la /etc/systemd/system/docker.service.d
-echo "sudo cat /etc/systemd/system/docker.service.d/docker.conf"
-sudo cat /etc/systemd/system/docker.service.d/docker.conf
 
-
-echo "find /etc/systemd -name *docker*"
-find /etc/systemd -name *docker*
-
-
-
+echo -e "\033[0;34m# OLD Docker engine service file \033[0m"
+ls -l /etc/systemd/system/multi-user.target.wants/docker.service
+sudo cat /etc/systemd/system/multi-user.target.wants/docker.service
 
 
 
