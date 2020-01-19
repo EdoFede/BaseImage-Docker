@@ -18,6 +18,9 @@ echo "sudo cat /etc/systemd/system/docker.service.d/docker.conf"
 sudo cat /etc/systemd/system/docker.service.d/docker.conf
 
 
+echo "find /etc/systemd -name *docker*"
+find /etc/systemd -name *docker*
+
 
 
 
