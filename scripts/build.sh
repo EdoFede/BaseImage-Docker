@@ -111,12 +111,15 @@ PLATFORM=${PLATFORM%?};
 logNormal "Build platform list: $PLATFORM"
 logNormal "Done"
 
+echo ""
 logTitle "Checking/cleaning buildx environment"
-docker buildx ls
 docker buildx rm mybuilder
 docker buildx create --driver-opt network=host --use --name mybuilder
+docker buildx ls
+docker buildx inspect --bootstrap
 logNormal "Done"
 
+echo ""
 logTitle "Start building"
 cmdBuild="docker buildx build"
 cmdBuild+=" --platform $PLATFORM"
