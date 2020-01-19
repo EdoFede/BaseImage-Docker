@@ -4,7 +4,7 @@ language: bash
 #   - docker
 
 before_install:
-  - sudo apt-get remove docker docker-ce docker-ce-cli
+  - sudo apt-get remove docker-ce
   - curl -fsSL https://get.docker.com | sh
   - echo '{"experimental":"enabled"}' | sudo tee /etc/docker/daemon.json
   - mkdir -p $HOME/.docker
