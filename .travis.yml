@@ -11,8 +11,6 @@ before_install:
   - ./scripts/travisDockerSetup.sh
 
 install:
-  # - docker pull multiarch/qemu-user-static:register
-  # - docker run --rm --privileged multiarch/qemu-user-static:register --reset -p yes
   - docker pull multiarch/qemu-user-static
   - docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
   - docker run -d -p 5000:5000 --restart always --name localReg registry:2
@@ -27,6 +25,17 @@ after_script: docker images
 
 before_deploy:
   - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
+
+deploy:
+  - provider: script
+    script: make build_push BRANCH=$TRAVIS_BRANCH GIT_COMMIT=$(git rev-parse --short $TRAVIS_COMMIT) GITHUB_TOKEN=$GITHUB_TOKEN
+    on:
+      branch: master
+  - provider: script
+    script: make build_push BRANCH=$TRAVIS_BRANCH TAG_LATEST=1 GIT_COMMIT=$(git rev-parse --short $TRAVIS_COMMIT) GITHUB_TOKEN=$GITHUB_TOKEN
+    on:
+      tags: true
+      
 
 deploy:
   - provider: script

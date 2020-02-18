@@ -4,10 +4,10 @@ source scripts/multiArchMatrix.sh
 source scripts/logger.sh
 
 showHelp() {
-	echo "Usage: $0 -i <Image name> -t <Tag name> -a <Target architecture> -b <Baseimage branch> -v <version> -r <VCS reference> -g <GitHub auth token>"
+	echo "Usage: $0 -i <Image name> -t <Tag name> -a <Target architecture> -b <Baseimage branch> -l -v <version> -r <VCS reference> -g <GitHub auth token>"
 }
 
-while getopts :hi:t:a:b:v:r:g: opt; do
+while getopts :hi:t:a:b:l:v:r:g: opt; do
 	case ${opt} in
 		h)
 			showHelp
@@ -24,6 +24,9 @@ while getopts :hi:t:a:b:v:r:g: opt; do
 			;;
 		b)
 			BASEIMAGE_BRANCH=$OPTARG
+			;;
+		l)
+			TAG_LATEST=$OPTARG
 			;;
 		v)
 			VERSION=$OPTARG
@@ -56,6 +59,11 @@ echo ""
 logTitle "Build parameters"
 logSubTitle "Docker image: $DOCKER_IMAGE"
 logSubTitle "Docker tag: $DOCKER_TAG"
+if [ $TAG_LATEST == "1" ]; then
+	logSubTitle "Tag as latest: Yes"
+else
+	logSubTitle "Tag as latest: No"
+fi
 logSubTitle "Architecture: $ARCH"
 logSubTitle "Baseimage branch: $BASEIMAGE_BRANCH"
 logSubTitle "Image version: $VERSION"
@@ -63,7 +71,6 @@ logSubTitle "VCS reference: $VCS_REF"
 echo ""
 
 BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-
 
 logTitle "Reading multiarch build settings"
 PLATFORM=""
@@ -134,6 +141,9 @@ if [ ! -z $VCS_REF ]; then
 	cmdBuild+=" --build-arg VCS_REF=$VCS_REF"
 fi
 cmdBuild+=" --tag $DOCKER_IMAGE:$DOCKER_TAG"
+if [ $TAG_LATEST == "1" ]; then
+	cmdBuild+=" --tag $DOCKER_IMAGE:latest"
+fi
 cmdBuild+=" --push"
 cmdBuild+=" ."
 
@@ -146,3 +156,13 @@ if [ $? != 0 ]; then
 fi
 
 logNormal "Build done"
+
+echo ""
+logTitle "Inspecting images just built"
+docker buildx imagetools inspect $DOCKER_IMAGE:$DOCKER_TAG
+if [ $TAG_LATEST == "1" ]; then
+	echo ""
+	docker buildx imagetools inspect $DOCKER_IMAGE:latest
+fi
+logNormal "Inspection done"
+

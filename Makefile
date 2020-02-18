@@ -14,6 +14,7 @@ BASEIMAGE_BRANCH ?= 3.11.3
 GITHUB_TOKEN ?= "NONE"
 
 BRANCH ?= $(shell git branch |grep \* |cut -d ' ' -f2)
+TAG_LATEST ?= 0
 DOCKER_TAG = $(shell echo $(BRANCH) |sed 's/^v//')
 GIT_COMMIT ?= $(strip $(shell git rev-parse --short HEAD))
 
@@ -63,12 +64,14 @@ ifndef ARCH
 	@scripts/build.sh -i $(DOCKER_TEST_IMAGE) -t $(DOCKER_TAG) \
 		-b $(BASEIMAGE_BRANCH) \
 		-v $(BRANCH) \
+		-l $(TAG_LATEST) \
 		-r $(GIT_COMMIT) \
 		-g $(GITHUB_TOKEN) ;
 else
 	@scripts/build.sh -i $(DOCKER_TEST_IMAGE) -t $(DOCKER_TAG) \
 		-a $(ARCH) \
 		-b $(BASEIMAGE_BRANCH) \
+		-l $(TAG_LATEST) \
 		-v $(BRANCH) \
 		-r $(GIT_COMMIT) \
 		-g $(GITHUB_TOKEN) ;
@@ -79,6 +82,7 @@ build_push:
 ifndef ARCH
 	@scripts/build.sh -i $(DOCKER_IMAGE) -t $(DOCKER_TAG) \
 		-b $(BASEIMAGE_BRANCH) \
+		-l $(TAG_LATEST) \
 		-v $(BRANCH) \
 		-r $(GIT_COMMIT) \
 		-g $(GITHUB_TOKEN) ;
@@ -86,6 +90,7 @@ else
 	@scripts/build.sh -i $(DOCKER_IMAGE) -t $(DOCKER_TAG) \
 		-a $(ARCH) \
 		-b $(BASEIMAGE_BRANCH) \
+		-l $(TAG_LATEST) \
 		-v $(BRANCH) \
 		-r $(GIT_COMMIT) \
 		-g $(GITHUB_TOKEN) ;
