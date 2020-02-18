@@ -57,7 +57,7 @@ for i in ${!PLATFORMS[@]}; do
 	sleep 20
 	echo ""
 
-	containerId=$(docker container ls --filter ancestor=localhost:5000/baseimage:buildx -q)
+	containerId=$(docker container ls --filter ancestor=$DOCKER_IMAGE:$DOCKER_TAG -q)
 	
 	logSubTitle "Checking syslog-ng startup"
 	log=$(docker logs $containerId 2>&1 |grep 'syslog-ng starting up' |sed 's/.*\(syslog-ng starting up\).*/\1/')

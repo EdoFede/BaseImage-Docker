@@ -1,5 +1,5 @@
 # Docker base image
-A base Alpine image with runit and syslog-ng
+A Multi-arch base Alpine image with runit and syslog-ng
 
 [![](https://images.microbadger.com/badges/image/edofede/baseimage.svg)](https://microbadger.com/images/edofede/baseimage "Get your own image badge on microbadger.com")
 [![](https://images.microbadger.com/badges/version/edofede/baseimage.svg)](https://github.com/EdoFede/BaseImage-Docker/releases)
