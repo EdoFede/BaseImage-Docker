@@ -7,15 +7,17 @@ sudo cat /etc/docker/daemon.json
 
 echo -e "\033[0;34m# OLD Docker engine service file \033[0m"
 ls -l /etc/systemd/system/multi-user.target.wants/docker.service
-sudo cat /etc/systemd/system/multi-user.target.wants/docker.service
+ls -l /lib/systemd/system/docker.service
+sudo cat /lib/systemd/system/docker.service
 
 echo ""
 echo -e "\033[0;34m# Enabling Docker engine experimental mode \033[0m"
-sudo sed -i -e 's/fd:\/\//fd:\/\/ --experimental=true/g' /etc/systemd/system/multi-user.target.wants/docker.service
+sudo sed -i -e 's/fd:\/\//fd:\/\/ --experimental=true/g' /lib/systemd/system/docker.service
 
 echo -e "\033[0;34m# NEW Docker engine service file \033[0m"
 ls -l /etc/systemd/system/multi-user.target.wants/docker.service
-sudo cat /etc/systemd/system/multi-user.target.wants/docker.service
+ls -l /lib/systemd/system/docker.service
+sudo cat /lib/systemd/system/docker.service
 
 
 echo ""
