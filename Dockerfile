@@ -1,8 +1,5 @@
-ARG ARCH
 ARG BASEIMAGE_BRANCH
-FROM $ARCH/alpine:$BASEIMAGE_BRANCH
-
-COPY build_tmp/qemu/ /usr/bin/
+FROM alpine:$BASEIMAGE_BRANCH
 
 # Install required software
 RUN	apk update && \
@@ -37,7 +34,7 @@ LABEL 	maintainer="Edoardo Federici <hello@edoardofederici.com>" \
 		org.label-schema.vendor="Edoardo Federici" \
 		org.label-schema.url="https://edoardofederici.com" \
 		org.label-schema.name="baseimage" \
-		org.label-schema.description="Docker base image with runit, syslog-ng and few tools" \
+		org.label-schema.description="Docker multiarch base image with runit, syslog-ng and few tools" \
 		org.label-schema.version=$VERSION \
 		org.label-schema.build-date=$BUILD_DATE \
 		org.label-schema.vcs-url="https://github.com/EdoFede/BaseImage-Docker" \
