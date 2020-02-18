@@ -36,14 +36,3 @@ deploy:
     on:
       tags: true
       
-
-deploy:
-  - provider: script
-    script: make docker_push BRANCH=$TRAVIS_BRANCH
-    on:
-      branch: master
-  - provider: script
-    script: make docker_push_latest BRANCH=$TRAVIS_BRANCH
-    on:
-      tags: true
-      
