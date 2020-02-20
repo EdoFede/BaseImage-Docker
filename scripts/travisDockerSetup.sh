@@ -44,9 +44,3 @@ docker version
 echo ""
 echo -e "\033[0;34m# Checking running containers \033[0m"
 docker ps -a
-
-
-# echo ""
-# echo -e "\033[0;34m######### Pulling and starting local registry #########\033[0m"
-# docker pull registry:2
-# docker run -d -p 5000:5000 --restart always --name registry registry:2

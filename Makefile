@@ -19,7 +19,7 @@ DOCKER_TAG = $(shell echo $(BRANCH) |sed 's/^v//')
 GIT_COMMIT ?= $(strip $(shell git rev-parse --short HEAD))
 
 
-.PHONY: list git_push git_fix_permission output build debug run test test_all clean docker_push docker_push_latest
+.PHONY: list git_push git_fix_permission output build build_push debug run test test_all clean
 
 
 list:
@@ -30,13 +30,12 @@ list:
 	@printf "\\tmake git_fix_permission \\n"
 	@printf "\\tmake output \\ \\n\\t\\t[BRANCH=<GitHub branch> (default: `git branch |grep \* |cut -d ' ' -f2`)] \\n"
 	@printf "\\tmake build \\ \\n\\t\\t[BRANCH=<Git destination branch> (default: `git branch |grep \* |cut -d ' ' -f2`)] \\ \\n\\t\\t[ARCH=<Architecture to build> (no option = all architectures)] \\ \\n\\t\\t[BASEIMAGE_BRANCH=<Baseimage version> (default: $(BASEIMAGE_BRANCH))] \\ \\n\\t\\t[GIT_COMMIT=<Git commit sha> (default: git rev-parse --short HEAD)] \\ \\n\\t\\t[GITHUB_TOKEN=<Github auth token for API>] \\n"
+	@printf "\\tmake build_push \\ \\n\\t\\t[BRANCH=<Git destination branch> (default: `git branch |grep \* |cut -d ' ' -f2`)] \\ \\n\\t\\t[ARCH=<Architecture to build> (no option = all architectures)] \\ \\n\\t\\t[BASEIMAGE_BRANCH=<Baseimage version> (default: $(BASEIMAGE_BRANCH))] \\ \\n\\t\\t[GIT_COMMIT=<Git commit sha> (default: git rev-parse --short HEAD)] \\ \\n\\t\\t[GITHUB_TOKEN=<Github auth token for API>] \\n"
 	@printf "\\tmake run \\ \\n\\t\\t[BRANCH=<GitHub branch> (default: `git branch |grep \* |cut -d ' ' -f2`)] \\ \\n\\t\\t[PLATFORM=<Architecture> (Default: $(PLATFORM))] \\n"
 	@printf "\\tmake debug \\ \\n\\t\\t[BRANCH=<GitHub branch> (default: `git branch |grep \* |cut -d ' ' -f2`)] \\ \\n\\t\\t[PLATFORM=<Architecture> (Default: $(PLATFORM))] \\n"
 	@printf "\\tmake test \\ \\n\\t\\t[BRANCH=<GitHub branch> (default: `git branch |grep \* |cut -d ' ' -f2`)] \\ \\n\\t\\t[PLATFORM=<Architecture> (Default: $(PLATFORM))] \\n"
 	@printf "\\tmake test_all \\ \\n\\t\\t[BRANCH=<GitHub branch> (default: `git branch |grep \* |cut -d ' ' -f2`)] \\ \\n\\t\\t[ARCH=<Architecture to test> (no option = all architectures)] \\n"
 	@printf "\\tmake clean \\n"
-	@printf "\\tmake docker_push \\ \\n\\t\\t[BRANCH=<GitHub branch> (default: `git branch |grep \* |cut -d ' ' -f2`)] \\n"
-	@printf "\\tmake docker_push_latest \\ \\n\\t\\t[BRANCH=<GitHub branch> (default: `git branch |grep \* |cut -d ' ' -f2`)] \\n"
 
 
 git_push:
@@ -109,14 +108,14 @@ debug:
 
 
 test:
-	@scripts/testSyslog.sh \
+	@scripts/test.sh \
 		-i $(DOCKER_TEST_IMAGE) \
 		-t $(DOCKER_TAG) \
 		-p $(PLATFORM)
 
 
 test_all:
-	@scripts/testSyslog.sh \
+	@scripts/test.sh \
 		-i $(DOCKER_TEST_IMAGE) \
 		-t $(DOCKER_TAG)
 
@@ -126,11 +125,3 @@ clean:
 	@docker rm $(shell docker ps -a -q `docker image ls -q $(DOCKER_IMAGE) |sed 's/.*/ --filter ancestor=&/'`) || exit 0
 	@docker image rm $(shell docker image ls -a -q $(DOCKER_IMAGE)) || exit 0
 	@docker image prune -f
-
-
-docker_push:
-	@./scripts/pushDockerHub.sh -i $(DOCKER_IMAGE) -t $(DOCKER_TAG)
-
-
-docker_push_latest:
-	@./scripts/pushDockerHub.sh -i $(DOCKER_IMAGE) -t $(DOCKER_TAG) -l

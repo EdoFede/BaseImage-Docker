@@ -165,4 +165,3 @@ if [ $TAG_LATEST == "1" ]; then
 	docker buildx imagetools inspect $DOCKER_IMAGE:latest
 fi
 logNormal "Inspection done"
-
