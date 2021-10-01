@@ -24,7 +24,7 @@ getQemu() {
 	fi
 	
 	if [ -z QEMU_RELEASE ]; then
-		QEMU_RELEASE="v4.2.0-2"
+		QEMU_RELEASE="v6.0.0-2"
 	fi
 	
 	for i in ${!PLATFORMS[@]}; do
