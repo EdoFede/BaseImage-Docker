@@ -17,13 +17,13 @@ getQemu() {
 
 	cleanup
 	
-	if [ -z GITHUB_TOKEN ] || [ "$GITHUB_TOKEN" == "NONE" ]; then
+	if [ -z "$GITHUB_TOKEN" ] || [ "$GITHUB_TOKEN" == "NONE" ]; then
 		QEMU_RELEASE=$(curl -sS --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 1 --retry-max-time 60 "https://api.github.com/repos/multiarch/qemu-user-static/releases/latest" |grep '"tag_name":' |sed -E 's/.*"([^"]+)".*/\1/')
 	else
 		QEMU_RELEASE=$(curl -u EdoFede:$GITHUB_TOKEN -sS --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 1 --retry-max-time 60 "https://api.github.com/repos/multiarch/qemu-user-static/releases/latest" |grep '"tag_name":' |sed -E 's/.*"([^"]+)".*/\1/')	
 	fi
 	
-	if [ -z QEMU_RELEASE ]; then
+	if [ -z "$QEMU_RELEASE" ]; then
 		QEMU_RELEASE="v6.0.0-2"
 	fi
 	
