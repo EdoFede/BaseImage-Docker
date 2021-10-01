@@ -36,6 +36,8 @@ getQemu() {
 	
 	if [ "$QEMU_ARCH" != "NONE" ]; then
 		mkdir -p build_tmp/qemu
+		QEMU_LINK="https://github.com/multiarch/qemu-user-static/releases/download/$QEMU_RELEASE/qemu-$QEMU_ARCH-static.tar.gz"
+		logDetail "Downloading qemu static from: $QEMU_LINK"
 
 		curl -sS -L \
 			--connect-timeout 5 \
@@ -43,7 +45,7 @@ getQemu() {
 			--retry 5 \
 			--retry-delay 0 \
 			--retry-max-time 60 \
-			https://github.com/multiarch/qemu-user-static/releases/download/$QEMU_RELEASE/qemu-$QEMU_ARCH-static.tar.gz \
+			$QEMU_LINK \
 			-o build_tmp/qemu-$QEMU_ARCH-static.tar.gz && \
 		tar zxvf \
 			build_tmp/qemu-*-static.tar.gz \
